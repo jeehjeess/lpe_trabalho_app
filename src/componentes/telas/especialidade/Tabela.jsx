@@ -23,8 +23,9 @@ function Tabela() {
                     setEditar(false);
                     setAlerta({ status: "", message: "" });
                 }}>
-                Novo <i className="bi bi-file-earmark-plus"></i>
+               <i className="bi bi-file-earmark-plus"></i> Novo 
             </button>
+            <Alerta alerta={alerta} />
             {listaObjetos.length === 0 &&
                 <h1>Nenhuma especialidade encontrada</h1>}
             {listaObjetos.length > 0 && (
@@ -58,7 +59,7 @@ function Tabela() {
                                             <i className="bi bi-trash"></i>
                                         </button>
                                     </td>
-                                    <th scope="row">{objeto.codigo}</th>
+                                    <td>{objeto.codigo}</td>
                                     <td>{objeto.nome}</td>
                                     <td>{objeto.descricao}</td>
                                 </tr>
