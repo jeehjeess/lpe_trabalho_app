@@ -4,7 +4,7 @@ import Alerta from '../../Alerta';
 
 function Tabela() {
 
-    // pegando as variáveis e métodos do contexto
+    
     const { setObjeto, alerta, setAlerta,
         listaObjetos, remover, setEditar, recuperar } = useContext(MedicoContext);
 
@@ -24,8 +24,9 @@ function Tabela() {
                     setEditar(false);
                     setAlerta({ status: "", message: "" });
                 }}>
-                Novo <i className="bi bi-file-earmark-plus"></i>
+                 <i className="bi bi-file-earmark-plus"></i> Novo
             </button>
+            <Alerta alerta={alerta} />
             {listaObjetos.length === 0 &&
                 <h1>Nenhum médico encontrado</h1>}
             {listaObjetos.length > 0 && (
@@ -61,11 +62,11 @@ function Tabela() {
                                             <i className="bi bi-trash"></i>
                                         </button>
                                     </td>
-                                    <th scope="row">{objeto.codigo}</th>
+                                    <td>{objeto.codigo}</td>
                                     <td>{objeto.nome}</td>
                                     <td>{objeto.crm}</td>
                                     <td>{objeto.cpf}</td>
-                                    <td>{objeto.especialidade}</td>
+                                    <td>{objeto.nomeespecialidade}</td>
                                 </tr>
                             ))}
                         </tbody>

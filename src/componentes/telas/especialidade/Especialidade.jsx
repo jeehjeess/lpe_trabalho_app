@@ -70,8 +70,13 @@ function Especialidade() {
                         { method: "DELETE" })
                         .then(response => response.json())
                         .then(json =>
-                            setAlerta({ status: json.status, message: json.message }))
-                // consulto a api novamente para trazer os registros do banco atualizados
+                            setAlerta({ 
+                                status: json.status, 
+                                message: json.message.toString().split(' ').includes('violates') ?
+                                    'Erro ao excluir Especialidade pois existe um Médico cadastrado nela!'
+                                    : json.message
+                            }))
+                
                 recuperaEspecialidades();
 
             } catch (err) {
