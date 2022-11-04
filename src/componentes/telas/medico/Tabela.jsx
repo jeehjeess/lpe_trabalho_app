@@ -1,6 +1,7 @@
 import { useContext } from 'react';
 import MedicoContext from './MedicoContext';
 import Alerta from '../../Alerta';
+import Titulo from "../../comuns/Titulo";
 
 function Tabela() {
 
@@ -10,7 +11,7 @@ function Tabela() {
 
     return (
         <div style={{ padding: '20px' }}>
-            <h1>Médicos</h1>
+            <Titulo texto="Médicos"/>
             <Alerta alerta={alerta} />
             <button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalEdicao"
                 onClick={() => {

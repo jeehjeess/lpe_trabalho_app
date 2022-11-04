@@ -11,11 +11,18 @@ import Medico from './componentes/telas/medico/Medico'
 function App() {
   return (
       <Router>
-        <Menu/>
         <Routes>
-          <Route exact="true" path="/" element={<Home/>}/>
-          <Route exact="true" path="/especialidades" element={<Especialidade/>}/>
-          <Route exact="true" path="/medicos" element={<Medico/>}/>
+          <Route  path="/" element={<MenuPublico />}  >
+            <Route index   element={<Home />} />
+            <Route exact="true" path="/login" element={<Login />} />
+          </Route>
+
+          <Route  path="/privado" element={<MenuPrivado />}  >
+            <Route index   element={<Home />} />
+            <Route exact="true" path="predios" element={<Predios />} />
+            <Route exact="true" path="salas" element={<Salas />} />
+            <Route exact="true" path="login" element={<Login />} />
+          </Route>        
         </Routes>
       </Router>
   );

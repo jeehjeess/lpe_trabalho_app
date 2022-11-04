@@ -3,13 +3,18 @@ import MedicoContext from './MedicoContext';
 import Tabela from './Tabela';
 import Form from './Form';
 import Carregando from '../../Carregando';
+import WithAuth from "../../seg/WithAuth";
+import Autenticacao from "../../seg/Autenticacao";
+import { useNavigate } from "react-router-dom";
 
 function Medico() {
 
-    const [alerta, setAlerta] = useState({ status: "", message: "" });
+    let navigate = useNavigate();
+
+    const [alerta, setAlerta]             = useState({ status: "", message: "" });
     const [listaObjetos, setListaObjetos] = useState([]);
-    const [editar, setEditar] = useState(false);
-    const [objeto, setObjeto] = useState({
+    const [editar, setEditar]             = useState(false);
+    const [objeto, setObjeto]             = useState({
         codigo: "", nome: "",
         crm: "", cpf: "", especialidade: ""
     });
@@ -17,20 +22,37 @@ function Medico() {
     const [carregando, setCarregando] = useState(true);
 
     const recuperar = async codigo => {
-        await fetch(`${process.env.REACT_APP_ENDERECO_API}/medicos/${codigo}`)
+        try {
+            await fetch(`${process.env.REACT_APP_ENDERECO_API}/medicos/${codigo}`)
             .then(response => response.json())
             .then(data => setObjeto(data))
             .catch(err => setAlerta({ status: "error", message: err }))
+                .then(response => {
+                    if (response.ok) {
+                        return response.json();
+                    }
+                    throw new Error('Erro código: ' + response.status);
+                })
+                .then(data => setObjeto(data))
+        }
+        catch (err) {
+            setAlerta({ "status": "error", "message": err })
+            window.location.reload();
+            navigate("/login", { replace: true });
+        }
+
     }
 
     const acaoCadastrar = async e => {
         e.preventDefault();
         const metodo = editar ? "PUT" : "POST";
         try {
-            await fetch(`${process.env.REACT_APP_ENDERECO_API}/medicos`, 
+            await fetch(`${process.env.REACT_APP_ENDERECO_API}/medicos`,
             {
                 method : metodo,
-                headers : {"Content-Type": "application/json"},
+                headers : {"Content-Type": "application/json", 
+                "x-access-token": Autenticacao.pegaAutenticacao().token            
+            },
                 body : JSON.stringify(objeto)
             }).then(response => response.json())
               .then(json => {
@@ -42,6 +64,8 @@ function Medico() {
               })
         } catch(err){
             console.log(err.message);
+            window.location.reload();
+            navigate("/login", { replace: true });
         }
         recuperaMedicos();
     }
@@ -53,18 +77,53 @@ function Medico() {
     }
 
     const recuperaEspecialidades = async () => {
-        await fetch(`${process.env.REACT_APP_ENDERECO_API}/especialidades`)
-            .then(response => response.json())
-            .then(data => setListaEspecialidades(data))
-            .catch(err => setAlerta({ status: "error", message: err }))
+        try {
+            await fetch(`${process.env.REACT_APP_ENDERECO_API}/especialidades`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    "x-access-token": Autenticacao.pegaAutenticacao().token
+                }
+            })
+                .then(response => {
+                    if (response.ok) {
+                        return response.json();
+                    }
+                    throw new Error('Erro código: ' + response.status)
+                })
+                .then(data => setListaEspecialidades(data))
+                .catch(err => setAlerta({ "status": "error", "message": err }))
+        } catch (err) {
+            setAlerta({ "status": "error", "message": err })
+            window.location.reload();
+            navigate("/login", { replace: true });
+        }
+
     }
 
     const recuperaMedicos = async () => {
         setCarregando(true);
-        await fetch(`${process.env.REACT_APP_ENDERECO_API}/medicos`)
-            .then(response => response.json())
-            .then(data => setListaObjetos(data))
-            .catch(err => setAlerta({ status: "error", message: err }));
+        try {
+            await fetch(`${process.env.REACT_APP_ENDERECO_API}/medicos`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    "x-access-token": Autenticacao.pegaAutenticacao().token
+                }
+            })
+                .then(response => {
+                    if (response.ok) {
+                        return response.json();
+                    }
+                    throw new Error('Erro código: ' + response.status)
+                })
+                .then(data => setListaObjetos(data))
+                .catch(err => setAlerta({ "status": "error", "message": err }))
+        } catch (err) {
+            setAlerta({ "status": "error", "message": err })
+            window.location.reload();
+            navigate("/login", { replace: true });
+        }
         setCarregando(false);            
     }    
 
@@ -74,7 +133,12 @@ function Medico() {
                 // chamada ao método de remover da api
                 await
                     fetch(`${process.env.REACT_APP_ENDERECO_API}/medicos/${objeto.codigo}`,
-                        { method: "DELETE" })
+                    {method: "DELETE",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "x-access-token": Autenticacao.pegaAutenticacao().token
+                    }
+                })
                         .then(response => response.json())
                         .then(json =>
                             setAlerta({ status: json.status, message: json.message }))
@@ -82,7 +146,9 @@ function Medico() {
                 recuperaMedicos();
 
             } catch (err) {
-                console.log('Erro: ' + err)
+                console.log('Erro: ' + err);
+                window.location.reload();
+                navigate("/login", { replace: true });
             }
         }
     }
@@ -111,4 +177,4 @@ function Medico() {
     )
 }
 
-export default Medico;
+export default WithAuth(Medico);

@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import EspecialidadeContext from './EspecialidadeContext';
 import Alerta from '../../Alerta';
 import Carregando from '../../Carregando';
+import Titulo from "../../comuns/Titulo";
 
 function Tabela() {
 
@@ -11,8 +12,7 @@ function Tabela() {
 
     return (        
         <div style={{ padding: '20px' }}>
-            <h1>Especialidades</h1>
-            <Alerta alerta={alerta} />
+            <Titulo texto="Especialidades"/>
             <button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalEdicao"
                 onClick={() => {
                     setObjeto({
