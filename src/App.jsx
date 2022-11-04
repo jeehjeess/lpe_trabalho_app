@@ -6,6 +6,10 @@ import Home from './componentes/Home'
 import {BrowserRouter as Router, Routes , Route } from 'react-router-dom'
 import Especialidade from './componentes/telas/especialidade/Especialidade'
 import Medico from './componentes/telas/medico/Medico'
+import React from 'react'
+import Login from './componentes/telas/login/Login'
+import MenuPrivado from './componentes/MenuPrivado'
+import MenuPublico from './componentes/MenuPublico'
 
 function App() {
   return (
