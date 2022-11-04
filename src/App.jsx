@@ -2,7 +2,6 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import '@popperjs/core/dist/cjs/popper.js'
 import 'bootstrap/dist/js/bootstrap.min.js'
 import 'bootstrap-icons/font/bootstrap-icons.css' 
-import Menu from './componentes/Menu'
 import Home from './componentes/Home'
 import {BrowserRouter as Router, Routes , Route } from 'react-router-dom'
 import Especialidade from './componentes/telas/especialidade/Especialidade'
@@ -19,8 +18,8 @@ function App() {
 
           <Route  path="/privado" element={<MenuPrivado />}  >
             <Route index   element={<Home />} />
-            <Route exact="true" path="predios" element={<Predios />} />
-            <Route exact="true" path="salas" element={<Salas />} />
+            <Route exact="true" path="especialidade" element={<Especialidade />} />
+            <Route exact="true" path="medico" element={<Medico />} />
             <Route exact="true" path="login" element={<Login />} />
           </Route>        
         </Routes>
