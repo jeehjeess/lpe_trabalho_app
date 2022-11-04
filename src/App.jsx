@@ -22,8 +22,8 @@ function App() {
 
           <Route  path="/privado" element={<MenuPrivado />}  >
             <Route index   element={<Home />} />
-            <Route exact="true" path="especialidade" element={<Especialidade />} />
-            <Route exact="true" path="medico" element={<Medico />} />
+            <Route exact="true" path="especialidades" element={<Especialidade />} />
+            <Route exact="true" path="medicos" element={<Medico />} />
             <Route exact="true" path="login" element={<Login />} />
           </Route>        
         </Routes>
